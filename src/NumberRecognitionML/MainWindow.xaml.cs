@@ -180,6 +180,9 @@ namespace NumberRecognitionML
 
         private void DrawCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            if (e.StylusDevice != null)
+                return;
+
             _previousPoint = null;
             try
             {
