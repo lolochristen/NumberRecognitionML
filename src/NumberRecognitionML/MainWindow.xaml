@@ -5,8 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NumberRecognitionML"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Number Recognition with ML.Net" Height="800" Width="1200">
     <Grid>
+        <Border Width="404" Height="404" BorderBrush="Black" BorderThickness="2">
+            <Canvas Background="Transparent" x:Name="DrawCanvas" Width="400" Height="400" 
+                    StylusDown="DrawCanvas_OnStylusDown" 
+                    StylusMove="DrawCanvas_OnStylusMove" 
+                    StylusLeave="DrawCanvas_OnStylusLeave"
+                    MouseDown="DrawCanvas_MouseDown" MouseMove="DrawCanvas_MouseMove" MouseUp="DrawCanvas_MouseUp">
+            </Canvas>
+        </Border>
+        <!--<Rectangle Stroke="#FFE41C1C" StrokeThickness="2" StrokeDashArray="4 4" Width="315" Height="315"
+                                                       SnapsToDevicePixels="True"/>-->
 
+        <Border BorderThickness="1" BorderBrush="Aqua" Margin="0,74,104,0" Height="202" VerticalAlignment="Top" HorizontalAlignment="Right" Width="202">
+            <Grid Width="200" Height="200" x:Name="AdjustedDrawCanvas">
+                <Grid.Background>
+                    <VisualBrush x:Name="ResizeVisualBrush" Viewbox="100, 100, 100, 100" ViewboxUnits="Absolute"  Visual="{Binding ElementName=DrawCanvas}" />
+                </Grid.Background>
+                <!--ViewportUnits="Absolute" Viewport="0, 0, 200, 200"-->
+            </Grid>
+        </Border>
+
+        <TextBox x:Name="PredictedNunbers" Text="" FontSize="20" Margin="402,0,398,127" VerticalAlignment="Bottom"/>
+
+        <TextBox x:Name="Log" IsReadOnly="True" FontSize="12" Margin="27,57,0,41" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Width="333"/>
+
+        <Grid Margin="0,300,104,0" Background="Beige" VerticalAlignment="Top" HorizontalAlignment="Right" Width="200">
+            <Image x:Name="ScaledImage" Width="200" Height="200" Stretch="Fill" />
+        </Grid>
+
+        <TextBlock x:Name="PredictedCharacter" Height="200" Width="200" FontSize="150" Padding="0" Margin="894,517,106,67" TextAlignment="Center" Text="-"/>
+
+        <Button x:Name="ClearButton" Click="ClearButton_OnClick" Width="80" Margin="0,138,398,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Right">Clear</Button>
+
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"  Orientation="Horizontal" Margin="0,3,0,0">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="2,2,2,2"/>
+                </Style>
+                <Style TargetType="{x:Type ToggleButton}">
+                    <Setter Property="Margin" Value="2,2,2,2"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button Height="30" Width="150" x:Name="TrainButton" Click="TrainButton_Click">Train Model</Button>
+            <Button Height="30" Width="150" x:Name="LoadModelButton" Click="LoadModelButton_Click">Load Model</Button>
+            <ToggleButton Height="30" Width="150" x:Name="PredictsButton" IsChecked="True">Prediction On/Off</ToggleButton>
+            <Button Height="30" Width="150" x:Name="AppendButtonr" Click="AppendData_Click">Append Training Data</Button>
+            <TextBox Text="" x:Name="Character" Width="40" Height="20" Margin="5"/>
+        </StackPanel>
     </Grid>
 </Window>
