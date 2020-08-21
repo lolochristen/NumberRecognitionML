@@ -25,7 +25,9 @@ namespace NumberRecognitionML
     /// </summary>
     public class DigitPrediction
     {
+        [ColumnName("Score")]
         public float[] Score;
+        public float PredictedNumber;
     }
 
     public class NumberRecognition
@@ -65,7 +67,9 @@ namespace NumberRecognitionML
                 // step 3: train the model with SDCA
                 .Append(context.MulticlassClassification.Trainers.SdcaMaximumEntropy(
                     labelColumnName: "Label",
-                    featureColumnName: "Features"));
+                    featureColumnName: "Features"))
+
+                .Append(context.Transforms.Conversion.MapKeyToValue("PredictedNumber", "PredictedLabel"));
 
             // train the model
             Trace.WriteLine("Training model....");
@@ -140,16 +144,6 @@ namespace NumberRecognitionML
                 Trace.WriteLine("Prediction failed. Model loaded?");
                 return null;
             }
-        }
-
-        public char PredictDigitEvaluate(Digit digit, out float score)
-        {
-            var digitPred = _predictionEngine.Predict(digit);
-            score = digitPred.Score.Max();
-            for (int i = 0; i < digitPred.Score.Length; i++)
-                if (digitPred.Score[i] == score)
-                    return (char) (i + 48);
-            return ' ';
         }
     }
 }

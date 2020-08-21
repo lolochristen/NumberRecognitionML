@@ -225,29 +225,12 @@ namespace NumberRecognitionML
             var digit = new Digit() { PixelValues = pixels };
 
             var predict = _charRecon.PredictDigit(digit);
-            int i2 = -1;
-            float score = 0;
             for (int i = 0; i < predict.Score.Length; i++)
-            {
-                if (predict.Score[i] > score)
-                {
-                    i2 = i;
-                    score = predict.Score[i];
-                }
                 Trace.WriteLine($"{i}: {predict.Score[i] * 100:00.0000}%");
-            }
-            Trace.WriteLine($" It's a {i2} with a score of {score * 100:00.0000}%");
 
-            if (score > 0.3)
-            {
-                PredictedNunbers.Text += i2.ToString();
-                PredictedCharacter.Text = i2.ToString();
-            }
-            else
-            {
-                PredictedNunbers.Text += "?";
-                PredictedCharacter.Text = "?";
-            }
+            Trace.WriteLine($" It's a {predict.PredictedNumber}");
+            PredictedNunbers.Text += predict.PredictedNumber.ToString();
+            PredictedCharacter.Text = predict.PredictedNumber.ToString();
         }
 
         private float[] GetPixelArray()
